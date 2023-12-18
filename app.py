@@ -15,28 +15,18 @@ db = SQL("sqlite:///tracker.db")
 @app.route("/", methods=["GET", "POST"])
 def index():
 
-   
-    
+
+
     if request.method == "GET":
         rows = db.execute(
         "SELECT * FROM items"
         )
-    
-        total_rows = db.execute(
-        "SELECT COUNT(*) as count FROM items;"
-        )[0]["count"] 
-        
+
         return render_template("index.html", rows=rows)
-    
-    
+
+
     if request.method == "POST":
-        rows = db.execute(
-        "SELECT * FROM items"
-        )
-    
-        total_rows = db.execute(
-        "SELECT COUNT(*) as count FROM items;"
-        )[0]["count"] 
+
         item_name = request.form.get("item")
         price_amount = request.form.get("price")
 
@@ -44,11 +34,15 @@ def index():
             return "<h1> ENTER ITEM </h1>"
         if not price_amount:
             return "<h1>ENTER PRICE</h1>"
-        
-        
-        elif item_name and price_amount:
+
+
+        else:
             db.execute("INSERT INTO items(item, price) VALUES (?, ?);",item_name, price_amount)
-            return render_template("index.html", rows=rows, total_row=total_rows)
+            rows = db.execute(
+            "SELECT * FROM items"
+            )
+
+        return redirect("/")
 
 
 
