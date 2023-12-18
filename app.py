@@ -10,13 +10,15 @@ app = Flask(__name__)
 db = SQL("sqlite:///tracker.db")
 
 
+
+# Delete Route for When User Selects to Delete All the Rows
 @app.route("/delete_all", methods=["POST"])
 def delete_all():
     db.execute("DELETE FROM items")
     return redirect("/")
 
 
-
+# Delete Route for When User Deletes a Single Row
 @app.route("/delete_row", methods=["POST"])
 def delete_row():
 
@@ -25,6 +27,7 @@ def delete_row():
     return redirect("/")
 
 
+# Route for Index Page
 @app.route("/", methods=["GET", "POST"])
 def index():
 
@@ -40,6 +43,7 @@ def index():
 
     if request.method == "POST":
 
+        # Get item name and Price as Input
         item_name = request.form.get("item")
         price_amount = request.form.get("price")
         try:
@@ -48,12 +52,13 @@ def index():
             if price_amount is None:
                 return render_template("error.html")
 
+        # Check if user entered correct Input
         if not item_name:
             return render_template("error.html")
         if not price_amount or price_amount < 0:
             return render_template("error.html")
 
-
+        # Enter Item and Price of Item in DataBase
         else:
             db.execute("INSERT INTO items(item, price) VALUES (?, ?);",item_name, price_amount)
             rows = db.execute(
