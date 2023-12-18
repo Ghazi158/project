@@ -13,7 +13,7 @@
 
 
 
-          <title>Budget Tracker</title>
+          <title>Finance Tracker</title>
 
       </head>
 
@@ -22,16 +22,29 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        }
 
+        .header {
+          background-color: brown; 
+          color: white; 
+          font-variant-caps: unicase;
+        }
+
+        body {
+          background-image: url("web-image.jpg");
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: cover;
 
         }
     </style>
 
-    <body style="background-color: darkgrey;">
-              <header class="mb-5 small text-center">
-                  <h1 style="background-color: black; color: white; font-variant-caps: unicase;">
-                    Spending Notes
+    <body>
+              <header  class="mb-5 small text-center header">
+                  <h1 style="font-size: 10vh;">
+                    Finance Tracker
                   </h1>
+                  <h6>Keep track of your spendings!</h6>
               </header>
 
     <main class="container-fluid py-5 text-center"> 
