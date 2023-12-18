@@ -68,5 +68,7 @@ def index():
         return redirect("/")
 
 
-
+@app.route("/about", methods=["GET", "POST"])
+def about():
+    return render_template("about.html")
 
