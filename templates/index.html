@@ -17,11 +17,21 @@
 
     </head>
 
-    <body style="background-color: #A9A9A9;">
+  <style>
+      .center-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+
+      }
+  </style>
+
+    <body style="background-color: darkgrey;">
 
             <header class="mb-5 small text-center">
 
-                <h1 style="background-color: black; color: white;">
+                <h1 style="background-color: black; color: white; font-variant-caps: unicase;">
                   Spending Notes
               </h1>
 
@@ -48,18 +58,35 @@
 
 
             <table class="table table-dark">
-  <thead>
+  <thead style="text-align: center;">
     <tr>
       <th scope="col">Item</th>
       <th scope="col">Price</th>
+      <th scope="col">Date  (Format: YYYY-MM-DD)</th>
+      <form action="/delete_all" method="post">
+        <div class="center-div">
+      <button type="submit" class="btn btn-outline-danger">DELETE ALL ITEMS</button>
+        </div>
+    </form>
     </tr>
   </thead>
   <tbody>
     {% for row in rows %}
-    <tr>
+    <form action="/delete_row" method="post">
+    <tr style="text-align: center;">
+
+      <input type="hidden" name="row_id" value="{{ row['id'] }}">
+
       <td>{{ row["item"]}}</td>
-      <td>Rs {{ row["price"]}} </td>
+
+      <td>Rs {{ row["price"]}}
+      </td>
+
+      <td>  {{ row["timestamp"] }}
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+      </td>
     </tr>
+  </form>
     {% endfor %}
   </tbody>
 </table>

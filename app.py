@@ -10,6 +10,19 @@ app = Flask(__name__)
 db = SQL("sqlite:///tracker.db")
 
 
+@app.route("/delete_all", methods=["POST"])
+def delete_all():
+    db.execute("DELETE FROM items")
+    return redirect("/")
+
+
+
+@app.route("/delete_row", methods=["POST"])
+def delete_row():
+
+    row_id = request.form.get("row_id")
+    db.execute("DELETE FROM items WHERE id = ?", row_id)
+    return redirect("/")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -19,7 +32,7 @@ def index():
 
     if request.method == "GET":
         rows = db.execute(
-        "SELECT * FROM items"
+        "SELECT * FROM items ORDER BY timestamp DESC;"
         )
 
         return render_template("index.html", rows=rows)
@@ -29,11 +42,16 @@ def index():
 
         item_name = request.form.get("item")
         price_amount = request.form.get("price")
+        try:
+            price_amount = int(price_amount)
+        except ValueError:
+            if price_amount is None:
+                return render_template("error.html")
 
         if not item_name:
-            return "<h1> ENTER ITEM </h1>"
-        if not price_amount:
-            return "<h1>ENTER PRICE</h1>"
+            return render_template("error.html")
+        if not price_amount or price_amount < 0:
+            return render_template("error.html")
 
 
         else:
